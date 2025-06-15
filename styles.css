@@ -685,4 +685,69 @@ body {
 /* Smooth scrolling */
 html {
     scroll-behavior: smooth;
+}
+
+/* Involvement Section */
+.involvement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.involvement-card {
+    background: rgba(30, 64, 175, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.involvement-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.involvement-card:hover::before {
+    left: 100%;
+}
+
+.involvement-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 255, 255, 0.2);
+}
+
+.involvement-icon {
+    font-size: 48px;
+    color: #00ffff;
+    margin-bottom: 20px;
+}
+
+.involvement-card h3 {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.involvement-card h4 {
+    font-size: 16px;
+    color: #00ffff;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.involvement-card p {
+    color: #e2e8f0;
+    line-height: 1.6;
+    font-size: 14px;
 } 
