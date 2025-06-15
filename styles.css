@@ -203,10 +203,34 @@ body {
 
 /* About Section */
 .about-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
     align-items: center;
+}
+
+.about-header {
+    text-align: center;
+    width: 100%;
+}
+
+.about-header h3 {
+    font-size: 36px;
+    margin-bottom: 0;
+    color: #ffffff;
+}
+
+.about-main {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.about-text {
+    /* No additional styles needed - inherits from existing */
 }
 
 .about-text h3 {
@@ -234,8 +258,8 @@ body {
 .about-socials {
     display: flex;
     gap: 30px;
-    margin-top: 40px;
-    justify-content: flex-start;
+    margin-top: 20px;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -285,7 +309,7 @@ body {
 
 .about-image {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 /* Image Carousel */
@@ -841,8 +865,17 @@ body {
     }
 
     .about-content {
+        gap: 30px;
+    }
+
+    .about-main {
         grid-template-columns: 1fr;
+        gap: 40px;
         text-align: center;
+    }
+
+    .about-image {
+        justify-content: center;
     }
 
     .about-socials {
