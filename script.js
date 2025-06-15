@@ -28,32 +28,132 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Skill bar animation on scroll
-function animateSkillBars() {
-    const skillBars = document.querySelectorAll('.skill-progress');
+// Skill card animation on scroll
+function animateSkillCards() {
+    const skillCards = document.querySelectorAll('.skill-card');
     const skillsSection = document.querySelector('#skills');
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                skillBars.forEach(bar => {
-                    const width = bar.getAttribute('data-width');
-                    bar.style.width = width;
+                const cards = entry.target.querySelectorAll('.skill-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
                 });
-                observer.unobserver(entry.target);
+                observer.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.5
+        threshold: 0.2
     });
     
     if (skillsSection) {
         observer.observe(skillsSection);
+        
+        // Set initial state
+        skillCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
     }
 }
 
-// Initialize skill bar animation
-animateSkillBars();
+// Add interactive hover effects for skill cards
+function addSkillCardInteractions() {
+    const skillCards = document.querySelectorAll('.skill-card');
+    
+    skillCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            // Add ripple effect
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                border-radius: 50%;
+                background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
+                pointer-events: none;
+                animation: skillRipple 0.6s ease-out forwards;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+            `;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+        
+        // Add click effect
+        card.addEventListener('click', function() {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+        });
+    });
+}
+
+// Add CSS for skill card animations
+const skillCardStyle = document.createElement('style');
+skillCardStyle.textContent = `
+    @keyframes skillRipple {
+        0% {
+            width: 0;
+            height: 0;
+            opacity: 0.8;
+        }
+        100% {
+            width: 200px;
+            height: 200px;
+            opacity: 0;
+        }
+    }
+    
+    /* Enhanced skill card animations */
+    .skill-card {
+        cursor: pointer;
+    }
+    
+    .skill-card:active {
+        transform: translateY(-6px) scale(1.02) !important;
+    }
+    
+    /* Staggered animation for skill categories */
+    .skills-category:nth-child(1) .skill-card {
+        animation-delay: 0.1s;
+    }
+    
+    .skills-category:nth-child(2) .skill-card {
+        animation-delay: 0.2s;
+    }
+    
+    .skills-category:nth-child(3) .skill-card {
+        animation-delay: 0.3s;
+    }
+    
+    .skills-category:nth-child(4) .skill-card {
+        animation-delay: 0.4s;
+    }
+    
+    .skills-category:nth-child(5) .skill-card {
+        animation-delay: 0.5s;
+    }
+`;
+document.head.appendChild(skillCardStyle);
+
+// Initialize skill card effects
+document.addEventListener('DOMContentLoaded', function() {
+    animateSkillCards();
+    addSkillCardInteractions();
+});
 
 // Navbar background change on scroll
 window.addEventListener('scroll', () => {
