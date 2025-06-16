@@ -239,18 +239,99 @@ document.querySelectorAll('.project-card').forEach(card => {
 const contactForm = document.querySelector('.contact-form form');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
+        
         const submitBtn = this.querySelector('.btn-primary');
         const originalText = submitBtn.textContent;
+        const formData = new FormData(this);
         
+        // Update button to show loading state
         submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
         
-        // Re-enable button after 3 seconds (in case of issues)
-        setTimeout(() => {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }, 3000);
+        // Submit form using fetch API
+        fetch('https://formspree.io/f/mvgaodqk', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Success - show success message
+                submitBtn.textContent = 'Message Sent!';
+                submitBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+                
+                // Reset form fields
+                this.reset();
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                    submitBtn.style.background = 'linear-gradient(45deg, #00ffff, #0066ff)';
+                }, 3000);
+                
+                // Show success notification
+                showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+            } else {
+                throw new Error('Form submission failed');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            
+            // Error - show error message
+            submitBtn.textContent = 'Failed to Send';
+            submitBtn.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+            
+            // Reset button after 3 seconds
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitBtn.style.background = 'linear-gradient(45deg, #00ffff, #0066ff)';
+            }, 3000);
+            
+            // Show error notification
+            showNotification('Failed to send message. Please try again or email me directly.', 'error');
+        });
     });
+}
+
+// Notification system
+function showNotification(message, type) {
+    // Remove existing notification if any
+    const existingNotification = document.querySelector('.notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+            <span>${message}</span>
+            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
 }
 
 // Add typing effect to the main heading
