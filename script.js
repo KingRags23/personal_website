@@ -153,7 +153,122 @@ document.head.appendChild(skillCardStyle);
 document.addEventListener('DOMContentLoaded', function() {
     animateSkillCards();
     addSkillCardInteractions();
+    initSkillRatings();
 });
+
+// Skill Rating System
+function initSkillRatings() {
+    // Define skill ratings (default is 5 stars, specified skills get 4 stars)
+    const skillRatings = {
+        'R': 4,
+        'spaCy': 4,
+        'Keras': 4,
+        'LightGBM': 4,
+        'SASS/SCSS': 4,
+        'Redis': 4
+    };
+    
+    const skillCards = document.querySelectorAll('.skill-card');
+    
+    // Prepare skill cards for flip animation
+    skillCards.forEach(card => {
+        prepareSkillCardForFlip(card);
+        
+        // Add click event to show rating overlay
+        card.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showSkillRating(this, skillRatings);
+        });
+    });
+    
+    // Close rating overlay when clicking outside (optional - remove this if you want cards to stay flipped)
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.skill-card') && !e.target.closest('.skills-section')) {
+            // Uncomment the line below if you want clicking outside to close all cards
+            // closeAllRatingOverlays();
+        }
+    });
+}
+
+function prepareSkillCardForFlip(skillCard) {
+    // Get existing content
+    const existingContent = skillCard.innerHTML;
+    
+    // Wrap existing content in a container
+    skillCard.innerHTML = `
+        <div class="skill-content">
+            ${existingContent}
+        </div>
+    `;
+}
+
+function showSkillRating(skillCard, skillRatings) {
+    // Check if this card is already flipped
+    if (skillCard.classList.contains('flipped')) {
+        // If already flipped, close it
+        closeSkillRating(skillCard);
+        return;
+    }
+    
+    const skillName = skillCard.querySelector('span').textContent.trim();
+    const rating = skillRatings[skillName] || 5; // Default to 5 stars
+    
+    // Add flip class to trigger animation
+    skillCard.classList.add('flipped');
+    
+    // Create rating overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'skill-rating-overlay';
+    
+    overlay.innerHTML = `
+        <button class="close-rating" onclick="closeSkillRatingFromButton(this)">
+            <i class="fas fa-times"></i>
+        </button>
+        <h4>${skillName}</h4>
+        <div class="experience-label">Experience:</div>
+        <div class="star-rating">
+            ${generateStars(rating)}
+        </div>
+    `;
+    
+    skillCard.appendChild(overlay);
+}
+
+function generateStars(rating) {
+    let starsHTML = '';
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            starsHTML += '<i class="fas fa-star star filled"></i>';
+        } else if (i - 0.5 === rating) {
+            starsHTML += '<i class="fas fa-star-half-alt star half"></i>';
+        } else {
+            starsHTML += '<i class="far fa-star star"></i>';
+        }
+    }
+    return starsHTML;
+}
+
+function closeSkillRating(skillCard) {
+    const overlay = skillCard.querySelector('.skill-rating-overlay');
+    if (overlay) {
+        skillCard.classList.remove('flipped');
+        setTimeout(() => {
+            overlay.remove();
+        }, 300);
+    }
+}
+
+function closeSkillRatingFromButton(button) {
+    const skillCard = button.closest('.skill-card');
+    closeSkillRating(skillCard);
+}
+
+function closeAllRatingOverlays() {
+    const flippedCards = document.querySelectorAll('.skill-card.flipped');
+    flippedCards.forEach(card => {
+        closeSkillRating(card);
+    });
+}
 
 // Navbar background change on scroll
 window.addEventListener('scroll', () => {
