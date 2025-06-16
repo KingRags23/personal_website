@@ -221,9 +221,6 @@ function showSkillRating(skillCard, skillRatings) {
     overlay.className = 'skill-rating-overlay';
     
     overlay.innerHTML = `
-        <button class="close-rating" onclick="closeSkillRatingFromButton(this)">
-            <i class="fas fa-times"></i>
-        </button>
         <h4>${skillName}</h4>
         <div class="experience-label">Experience:</div>
         <div class="star-rating">
@@ -256,11 +253,6 @@ function closeSkillRating(skillCard) {
             overlay.remove();
         }, 300);
     }
-}
-
-function closeSkillRatingFromButton(button) {
-    const skillCard = button.closest('.skill-card');
-    closeSkillRating(skillCard);
 }
 
 function closeAllRatingOverlays() {
