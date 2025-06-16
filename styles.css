@@ -652,8 +652,8 @@ body {
 
 /* Timeline Logo Styles */
 .timeline-logo {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     margin-bottom: 15px;
     display: flex;
     align-items: center;
@@ -665,10 +665,22 @@ body {
 }
 
 .timeline-logo img {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     filter: brightness(1.2);
+}
+
+/* Position logos on the right for even timeline items (right side) */
+.timeline-item:nth-child(even) .timeline-logo {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* Position logos on the left for odd timeline items (left side) */
+.timeline-item:nth-child(odd) .timeline-logo {
+    margin-left: 0;
+    margin-right: auto;
 }
 
 /* Projects Section */
