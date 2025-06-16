@@ -618,6 +618,38 @@ body {
     color: #e2e8f0;
 }
 
+/* Timeline bullet points */
+.timeline-bullets {
+    margin: 15px 0 0 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+}
+
+.timeline-bullets li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    color: #e2e8f0;
+    font-size: 15px;
+    text-align: left;
+}
+
+.timeline-bullets li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #00ffff;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.timeline-bullets li:last-child {
+    margin-bottom: 0;
+}
+
 /* Timeline Logo Styles */
 .timeline-logo {
     width: 60px;
