@@ -1378,4 +1378,67 @@ html {
     .notification-content span {
         font-size: 13px;
     }
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.9), rgba(0, 102, 255, 0.9));
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 1), rgba(0, 102, 255, 1));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 255, 255, 0.4);
+}
+
+.back-to-top:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+}
+
+.back-to-top i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.back-to-top:hover i {
+    transform: translateY(-2px);
+}
+
+/* Mobile responsive back to top button */
+@media (max-width: 768px) {
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
 } 

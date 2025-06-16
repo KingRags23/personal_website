@@ -793,4 +793,57 @@ document.addEventListener('DOMContentLoaded', function() {
             orb.style.animation = orb.style.animation.replace('floatOrb', 'floatOrbEnhanced');
         }
     });
+});
+
+// Back to Top Button Functionality
+function initBackToTopButton() {
+    const backToTopBtn = document.getElementById('backToTop');
+    const aboutSection = document.getElementById('about');
+    
+    if (!backToTopBtn || !aboutSection) return;
+    
+    // Show/hide button based on scroll position
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    });
+    
+    // Smooth scroll to About Me section when clicked
+    backToTopBtn.addEventListener('click', () => {
+        const aboutSectionTop = aboutSection.offsetTop - 70; // Account for fixed navbar
+        
+        window.scrollTo({
+            top: aboutSectionTop,
+            behavior: 'smooth'
+        });
+        
+        // Add a little bounce effect to the button
+        backToTopBtn.style.transform = 'translateY(-5px) scale(0.95)';
+        setTimeout(() => {
+            backToTopBtn.style.transform = '';
+        }, 150);
+    });
+}
+
+// Initialize back to top button
+document.addEventListener('DOMContentLoaded', function() {
+    initBackToTopButton();
+    
+    // ... existing code ...
+    animateSkillCards();
+    addSkillCardInteractions();
+    createModernBackgroundEffects();
+    addScrollParallax();
+    addColorCycling();
+    
+    // Add enhanced floating animation to some orbs
+    const orbs = document.querySelectorAll('.diamond');
+    orbs.forEach((orb, index) => {
+        if (index % 2 === 0) {
+            orb.style.animation = orb.style.animation.replace('floatOrb', 'floatOrbEnhanced');
+        }
+    });
 }); 
