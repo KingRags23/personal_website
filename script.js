@@ -828,8 +828,43 @@ function initBackToTopButton() {
     });
 }
 
+// Scroll Progress Bar Functionality
+function initScrollProgress() {
+    const progressBar = document.querySelector('.progress-bar');
+    
+    if (!progressBar) return;
+    
+    function updateScrollProgress() {
+        // Calculate scroll progress
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollProgress = (scrollTop / scrollHeight) * 100;
+        
+        // Update progress bar width
+        progressBar.style.width = `${Math.min(scrollProgress, 100)}%`;
+        
+        // Add glow effect when scrolling
+        if (scrollProgress > 0) {
+            progressBar.style.boxShadow = `
+                0 0 10px rgba(0, 255, 255, 0.5),
+                0 0 20px rgba(0, 255, 255, 0.3),
+                0 0 30px rgba(0, 255, 255, 0.1)
+            `;
+        } else {
+            progressBar.style.boxShadow = '0 0 10px rgba(0, 255, 255, 0.5)';
+        }
+    }
+    
+    // Update progress on scroll
+    window.addEventListener('scroll', updateScrollProgress);
+    
+    // Initial update
+    updateScrollProgress();
+}
+
 // Initialize back to top button
 document.addEventListener('DOMContentLoaded', function() {
+    initScrollProgress();
     initBackToTopButton();
     
     // ... existing code ...
