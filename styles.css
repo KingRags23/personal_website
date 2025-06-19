@@ -764,6 +764,13 @@ body {
     opacity: 1;
 }
 
+.project-content {
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .project-content h3 {
     font-size: 24px;
     margin-bottom: 15px;
@@ -774,6 +781,7 @@ body {
     color: #e2e8f0;
     line-height: 1.6;
     margin-bottom: 20px;
+    flex-grow: 1;
 }
 
 .project-tech {
@@ -781,6 +789,8 @@ body {
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 20px;
+    min-height: 50px;
+    align-items: flex-start;
 }
 
 .project-tech span {
@@ -796,6 +806,7 @@ body {
 .project-links {
     display: flex;
     gap: 15px;
+    justify-content: center;
 }
 
 .btn-link {
