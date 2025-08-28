@@ -136,6 +136,18 @@ body {
     }
 }
 
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    50% {
+        background-position: 0% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
 /* Animated Gradient Mesh Background */
 .animated-bg::before {
     content: '';
@@ -234,7 +246,13 @@ body {
 .nav-logo span {
     font-size: 24px;
     font-weight: 700;
-    color: #00ffff;
+    background: linear-gradient(90deg, #00ffff 0%, #ffffff 25%, #00ffff 50%, #ffffff 75%, #00ffff 100%);
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s ease-in-out infinite;
+    position: relative;
 }
 
 .nav-menu {
