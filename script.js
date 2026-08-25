@@ -266,9 +266,9 @@ function closeAllRatingOverlays() {
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(10, 22, 40, 0.95)';
+        navbar.style.background = 'rgba(237, 237, 239, 0.96)';
     } else {
-        navbar.style.background = 'rgba(10, 22, 40, 0.9)';
+        navbar.style.background = 'rgba(237, 237, 239, 0.86)';
     }
 });
 
@@ -300,7 +300,7 @@ window.addEventListener('scroll', updateActiveNavLink);
 const style = document.createElement('style');
 style.textContent = `
     .nav-link.active {
-        color: #00ffff !important;
+        color: #19191a !important;
     }
     .nav-link.active::after {
         width: 100% !important;
@@ -379,7 +379,7 @@ if (contactForm) {
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
                     submitBtn.style.opacity = '1';
-                    submitBtn.style.background = 'linear-gradient(45deg, #00ffff, #0066ff)';
+                    submitBtn.style.background = '#19191a';
                 }, 3000);
                 
                 // Show success notification
@@ -400,7 +400,7 @@ if (contactForm) {
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
                 submitBtn.style.opacity = '1';
-                submitBtn.style.background = 'linear-gradient(45deg, #00ffff, #0066ff)';
+                submitBtn.style.background = '#19191a';
             }, 3000);
             
             // Show error notification
@@ -688,7 +688,7 @@ function startAutoSlide() {
 
 // Initialize carousel when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    if (slides.length > 0) {
+    if (slides.length > 1) {
         showSlide(0);
         startAutoSlide();
         
@@ -889,17 +889,7 @@ function addColorCycling() {
 
 // Initialize all modern effects
 document.addEventListener('DOMContentLoaded', function() {
-    createModernBackgroundEffects();
-    addScrollParallax();
-    addColorCycling();
-    
-    // Add enhanced floating animation to some orbs
-    const orbs = document.querySelectorAll('.diamond');
-    orbs.forEach((orb, index) => {
-        if (index % 2 === 0) {
-            orb.style.animation = orb.style.animation.replace('floatOrb', 'floatOrbEnhanced');
-        }
-    });
+    initGridBackground();
 });
 
 // Back to Top Button Functionality
@@ -940,22 +930,356 @@ function initScrollProgress() {
     // Function disabled for performance
 }
 
-// Initialize back to top button
 document.addEventListener('DOMContentLoaded', function() {
     initBackToTopButton();
-    
-    // ... existing code ...
     animateSkillCards();
     addSkillCardInteractions();
-    createModernBackgroundEffects();
-    addScrollParallax();
-    addColorCycling();
-    
-    // Add enhanced floating animation to some orbs
-    const orbs = document.querySelectorAll('.diamond');
-    orbs.forEach((orb, index) => {
-        if (index % 2 === 0) {
-            orb.style.animation = orb.style.animation.replace('floatOrb', 'floatOrbEnhanced');
-        }
+    initInvolvementCarousel();
+});
+
+function initInvolvementCarousel() {
+    const root = document.querySelector('.involvement-carousel');
+    if (!root) return;
+
+    const cards = [...root.querySelectorAll('.involvement-card')];
+    const prevBtn = root.querySelector('.involvement-nav.prev');
+    const nextBtn = root.querySelector('.involvement-nav.next');
+    const dotsWrap = root.querySelector('.involvement-dots');
+    const count = cards.length;
+    if (!count) return;
+
+    let index = 0;
+    let autoTimer;
+
+    cards.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'involvement-dot';
+        dot.setAttribute('aria-label', `Show involvement ${i + 1} of ${count}`);
+        dot.addEventListener('click', () => {
+            goTo(i);
+            restartAuto();
+        });
+        dotsWrap.appendChild(dot);
     });
-}); 
+
+    const dots = [...dotsWrap.querySelectorAll('.involvement-dot')];
+
+    function goTo(nextIndex) {
+        index = ((nextIndex % count) + count) % count;
+        const prev = (index - 1 + count) % count;
+        const next = (index + 1) % count;
+
+        cards.forEach((card, i) => {
+            card.classList.remove('is-active', 'is-prev', 'is-next');
+            if (i === index) card.classList.add('is-active');
+            else if (i === prev) card.classList.add('is-prev');
+            else if (i === next) card.classList.add('is-next');
+        });
+
+        dots.forEach((dot, i) => {
+            const active = i === index;
+            dot.classList.toggle('is-active', active);
+            if (active) dot.setAttribute('aria-current', 'true');
+            else dot.removeAttribute('aria-current');
+        });
+    }
+
+    function stopAuto() {
+        clearInterval(autoTimer);
+    }
+
+    function restartAuto() {
+        stopAuto();
+        autoTimer = setInterval(() => goTo(index + 1), 5000);
+    }
+
+    prevBtn.addEventListener('click', () => {
+        goTo(index - 1);
+        restartAuto();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        goTo(index + 1);
+        restartAuto();
+    });
+
+    cards.forEach((card) => {
+        card.addEventListener('click', () => {
+            if (card.classList.contains('is-prev')) goTo(index - 1);
+            else if (card.classList.contains('is-next')) goTo(index + 1);
+            restartAuto();
+        });
+    });
+
+    let touchStartX = 0;
+    root.addEventListener('touchstart', (event) => {
+        touchStartX = event.changedTouches[0].clientX;
+    }, { passive: true });
+
+    root.addEventListener('touchend', (event) => {
+        const deltaX = event.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(deltaX) < 40) return;
+        goTo(index + (deltaX < 0 ? 1 : -1));
+        restartAuto();
+    }, { passive: true });
+
+    root.addEventListener('mouseenter', stopAuto);
+    root.addEventListener('mouseleave', restartAuto);
+
+    goTo(0);
+    restartAuto();
+}
+
+function initGridBackground() {
+    const canvas = document.getElementById("bg-canvas");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const CELL = 48;
+    const snakes = [];
+    let paths = [];
+    let width = 0;
+    let height = 0;
+    let last = performance.now();
+    let frame = 0;
+
+    const palette = [
+        { head: [163, 62, 62], speed: 68, length: 110 },
+        { head: [50, 79, 140], speed: 96, length: 160 },
+        { head: [49, 130, 68], speed: 118, length: 210 }
+    ];
+
+    function lerp(a, b, t) {
+        return a + (b - a) * t;
+    }
+
+    function mix(rgb, t) {
+        const r = Math.round(lerp(255, rgb[0], 0.62));
+        const g = Math.round(lerp(255, rgb[1], 0.62));
+        const b = Math.round(lerp(255, rgb[2], 0.62));
+        return [r, g, b];
+    }
+
+    function dist(a, b) {
+        return Math.hypot(b[0] - a[0], b[1] - a[1]);
+    }
+
+    function pathLength(path) {
+        if (path.type === "line") return dist(path.a, path.b);
+        if (path.type === "arc") return Math.abs(path.end - path.start) * path.r;
+        return path.parts.reduce((sum, part) => sum + pathLength(part), 0);
+    }
+
+    function pointOnLine(a, b, t) {
+        return [lerp(a[0], b[0], t), lerp(a[1], b[1], t)];
+    }
+
+    function pointOnArc(path, t) {
+        const ang = lerp(path.start, path.end, t);
+        return [path.c[0] + Math.cos(ang) * path.r, path.c[1] + Math.sin(ang) * path.r];
+    }
+
+    function pointAt(path, s) {
+        if (path.type === "line") {
+            const len = pathLength(path) || 1;
+            const t = Math.max(0, Math.min(1, s / len));
+            return pointOnLine(path.a, path.b, t);
+        }
+        if (path.type === "arc") {
+            const len = pathLength(path) || 1;
+            const t = Math.max(0, Math.min(1, s / len));
+            return pointOnArc(path, t);
+        }
+        let remaining = s;
+        for (const part of path.parts) {
+            const len = pathLength(part);
+            if (remaining <= len) return pointAt(part, remaining);
+            remaining -= len;
+        }
+        const lastPart = path.parts[path.parts.length - 1];
+        return pointAt(lastPart, pathLength(lastPart));
+    }
+
+    function buildPaths() {
+        const snap = (n) => Math.round(n / CELL) * CELL;
+        const cx = snap(width * 0.27);
+        const cy = snap(height * 0.26);
+        const ox = snap(width * 0.72);
+        const oy = snap(height * 0.58);
+
+        return [
+            { type: "line", a: [-width, cy - CELL], b: [width * 2, cy + CELL * 9] },
+            { type: "line", a: [-width, cy + CELL], b: [width * 2, cy + CELL * 11] },
+            { type: "line", a: [cx - CELL * 22, height + CELL * 8], b: [cx + CELL * 28, -CELL * 10] },
+            { type: "arc", c: [cx, cy], r: CELL * 4, start: 0, end: Math.PI * 2 },
+            { type: "arc", c: [ox, oy], r: CELL, start: 0, end: Math.PI * 2 },
+            {
+                type: "chain",
+                parts: [
+                    { type: "line", a: [cx + CELL * 6, -height], b: [cx + CELL * 6, cy] },
+                    { type: "arc", c: [cx, cy], r: CELL * 6, start: 0, end: Math.PI / 2 },
+                    { type: "line", a: [cx, cy + CELL * 6], b: [-width, cy + CELL * 6] }
+                ]
+            }
+        ];
+    }
+
+    function pickPath(exclude) {
+        const options = paths.filter((_, i) => i !== exclude);
+        return options[Math.floor(Math.random() * options.length)] || paths[0];
+    }
+
+    function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        paths = buildPaths();
+        if (!snakes.length) {
+            palette.forEach((spec, i) => {
+                snakes.push({
+                    ...spec,
+                    tail: mix(spec.head),
+                    pathIndex: i % paths.length,
+                    s: pathLength(paths[i % paths.length]) * (0.18 + i * 0.12)
+                });
+            });
+        }
+        snakes.forEach((snake, i) => {
+            if (!paths[snake.pathIndex]) snake.pathIndex = i % paths.length;
+        });
+    }
+
+    function drawGrid() {
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= width + CELL; x += CELL) {
+            ctx.strokeStyle = (x / CELL) % 4 === 0 ? "rgba(48, 48, 49, 0.20)" : "rgba(48, 48, 49, 0.10)";
+            ctx.beginPath();
+            ctx.moveTo(x + 0.5, 0);
+            ctx.lineTo(x + 0.5, height);
+            ctx.stroke();
+        }
+        for (let y = 0; y <= height + CELL; y += CELL) {
+            ctx.strokeStyle = (y / CELL) % 4 === 0 ? "rgba(48, 48, 49, 0.20)" : "rgba(48, 48, 49, 0.10)";
+            ctx.beginPath();
+            ctx.moveTo(0, y + 0.5);
+            ctx.lineTo(width, y + 0.5);
+            ctx.stroke();
+        }
+    }
+
+    function drawConstruction() {
+        ctx.setLineDash([6, 4]);
+        ctx.strokeStyle = "rgba(48, 48, 49, 0.32)";
+        ctx.lineWidth = 1.2;
+        paths.forEach((path) => {
+            ctx.beginPath();
+            if (path.type === "line") {
+                ctx.moveTo(path.a[0], path.a[1]);
+                ctx.lineTo(path.b[0], path.b[1]);
+            } else if (path.type === "arc") {
+                ctx.arc(path.c[0], path.c[1], path.r, path.start, path.end);
+            } else {
+                path.parts.forEach((part, i) => {
+                    if (part.type === "line") {
+                        if (i === 0) ctx.moveTo(part.a[0], part.a[1]);
+                        ctx.lineTo(part.b[0], part.b[1]);
+                    } else {
+                        ctx.arc(part.c[0], part.c[1], part.r, part.start, part.end);
+                    }
+                });
+            }
+            ctx.stroke();
+        });
+        ctx.setLineDash([]);
+
+        const mark = paths[4];
+        if (mark && mark.type === "arc") {
+            ctx.strokeStyle = "rgba(48, 48, 49, 0.45)";
+            ctx.beginPath();
+            ctx.moveTo(mark.c[0] - 6, mark.c[1] - 6);
+            ctx.lineTo(mark.c[0] + 6, mark.c[1] + 6);
+            ctx.moveTo(mark.c[0] + 6, mark.c[1] - 6);
+            ctx.lineTo(mark.c[0] - 6, mark.c[1] + 6);
+            ctx.stroke();
+        }
+    }
+
+    function drawSnake(snake) {
+        const path = paths[snake.pathIndex];
+        if (!path) return;
+        const len = pathLength(path);
+        const start = Math.max(0, snake.s - snake.length);
+        const end = Math.min(len, snake.s);
+        if (end <= start) return;
+
+        const steps = 56;
+        let prev = pointAt(path, start);
+        for (let i = 1; i <= steps; i++) {
+            const t = i / steps;
+            const next = pointAt(path, lerp(start, end, t));
+            const r = lerp(snake.tail[0], snake.head[0], t);
+            const g = lerp(snake.tail[1], snake.head[1], t);
+            const b = lerp(snake.tail[2], snake.head[2], t);
+            ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${0.55 + t * 0.45})`;
+            ctx.lineWidth = 2.1;
+            ctx.lineCap = "round";
+            ctx.beginPath();
+            ctx.moveTo(prev[0], prev[1]);
+            ctx.lineTo(next[0], next[1]);
+            ctx.stroke();
+            prev = next;
+        }
+
+        const head = pointAt(path, end);
+        ctx.save();
+        ctx.shadowColor = `rgba(${snake.head[0]}, ${snake.head[1]}, ${snake.head[2]}, 0.9)`;
+        ctx.shadowBlur = 10;
+        ctx.fillStyle = `rgb(${snake.head[0]}, ${snake.head[1]}, ${snake.head[2]})`;
+        ctx.beginPath();
+        ctx.arc(head[0], head[1], 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    }
+
+    function tick(now) {
+        const dt = Math.min(0.05, (now - last) / 1000);
+        last = now;
+        ctx.clearRect(0, 0, width, height);
+        drawGrid();
+        drawConstruction();
+
+        if (!reduceMotion) {
+            snakes.forEach((snake) => {
+                const path = paths[snake.pathIndex];
+                const len = pathLength(path);
+                snake.s += snake.speed * dt;
+                if (snake.s > len + snake.length) {
+                    const next = pickPath(snake.pathIndex);
+                    snake.pathIndex = paths.indexOf(next);
+                    snake.s = 20;
+                }
+                drawSnake(snake);
+            });
+            frame = requestAnimationFrame(tick);
+        } else {
+            snakes.forEach(drawSnake);
+        }
+    }
+
+    window.addEventListener("resize", () => {
+        cancelAnimationFrame(frame);
+        resize();
+        last = performance.now();
+        frame = requestAnimationFrame(tick);
+    });
+
+    resize();
+    frame = requestAnimationFrame(tick);
+} 

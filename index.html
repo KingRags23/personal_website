@@ -8,21 +8,14 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/logo/headshot.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/logo/headshot.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=7">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="animated-bg">
-        <div class="diamond"></div>
-        <div class="diamond"></div>
-        <div class="diamond"></div>
-        <div class="diamond"></div>
-        <div class="diamond"></div>
-        <div class="diamond"></div>
-        <div class="diamond"></div>
-        <div class="diamond"></div>
+    <!-- Graph-paper background with traveling trails -->
+    <div class="animated-bg" aria-hidden="true">
+        <canvas id="bg-canvas"></canvas>
     </div>
 
 
@@ -72,7 +65,7 @@
                 <div class="about-main">
                     <div class="about-text">
                         <p>
-                            I'm an undergraduate at the <strong>University of California, Berkeley</strong>, double majoring in <strong>Computer Science</strong> and <strong>Data Science</strong> with a minor in <strong>Business Economics</strong>. 
+                            I'm an undergraduate at the <strong>University of California, Berkeley</strong>, double majoring in <strong>Computer Science</strong> and <strong>Data Science</strong>. 
                         </p>
                         <p>
                             I'm passionate about <strong>natural language processing</strong>, <strong>large language models</strong>, <strong>machine learning</strong>, and <strong>back-end development</strong>. More than anything, I'm driven by the challenge of <strong>leveraging AI</strong> and using data to build solutions that create <strong>real-world impact</strong>. 
@@ -82,27 +75,8 @@
                         <div class="image-carousel">
                             <div class="carousel-container">
                                 <div class="carousel-slide active">
-                                    <img src="images/my_pics/pic1.png" alt="Raghavan Srinivas - Photo 1">
+                                    <img src="images/my_pics/pic1.png" alt="Raghavan Srinivas">
                                 </div>
-                                <div class="carousel-slide">
-                                    <img src="images/my_pics/pic2.png" alt="Raghavan Srinivas - Photo 2">
-                                </div>
-                                <div class="carousel-slide">
-                                    <img src="images/my_pics/pic3.png" alt="Raghavan Srinivas - Photo 3">
-                                </div>
-                            </div>
-                            <div class="carousel-nav">
-                                <button class="carousel-btn prev" onclick="changeSlide(-1)">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <button class="carousel-btn next" onclick="changeSlide(1)">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                            </div>
-                            <div class="carousel-dots">
-                                <span class="dot active" onclick="currentSlide(1)"></span>
-                                <span class="dot" onclick="currentSlide(2)"></span>
-                                <span class="dot" onclick="currentSlide(3)"></span>
                             </div>
                         </div>
                     </div>
@@ -133,85 +107,76 @@
                 <div class="section-line"></div>
             </div>
             <div class="timeline">
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-logo">
-                            <img src="images/experiences/boem.png" alt="Bureau of Ocean Energy Management">
-                        </div>
-                        <h3>Data Science Researcher</h3>
-                        <h4>Bureau of Ocean Energy Management</h4>
-                        <span class="timeline-date">August 2025 - Present</span>
-                        <ul class="timeline-bullets">
-                            <li>Analyzing subsea geologic data from offshore Pacific Region basins to establish relationships between high-precision mineral composition data from X-ray Diffraction (XRD) analyses and lower resolution petrophysical measurements</li>
-                            <li>Conducting exploratory data analysis and generated visualizations to identify trends in clay content and its relationship to physical and measured properties of geological samples for reservoir characterization</li>
-                            <li>Performing clustering analysis to differentiate clay, sand, and silt compositions using advanced modeling techniques, supporting geological characterization for the U.S. Outer Continental Shelf energy resource management</li>
-                        </ul>
-                    </div>
-                </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-logo">
                             <img src="images/experiences/scaleai.png" alt="Scale AI">
                         </div>
-                        <h3>Technical Advisor Intern</h3>
-                        <h4>Scale AI</h4>
-                        <span class="timeline-date">May 2025 - August 2025</span>
-                        <ul class="timeline-bullets">
-                            <li>Stress-tested cutting-edge LLMs on multi-step reasoning datasets; reviewed and categorized 200+ model outputs to map failure modes and propose fixes adopted in 2 internal experiments, improving targeted-task success rates by about 10%</li>
-                            <li>Synthesized findings in 3+ concise technical briefs and contributed a 150+ item prompt/eval set; participated in bi-weekly focus groups to inform dataset curation and next-iteration evaluation design</li>
-                        </ul>
+                        <div class="timeline-copy">
+                            <h3>Gen AI Technical Advisor Intern</h3>
+                            <span class="timeline-date">May 2026 — August 2026</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-logo aws">
+                            <i class="fab fa-aws" aria-hidden="true"></i>
+                        </div>
+                        <div class="timeline-copy">
+                            <h3>Machine Learning Intern</h3>
+                            <span class="timeline-date">February 2026 — May 2026</span>
+                        </div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-logo">
-                            <img src="images/experiences/glidelyai.png" alt="GlidelyAI">
+                            <img src="images/experiences/boem.png" alt="Bureau of Ocean Energy Management">
                         </div>
-                        <h3>Software Development Intern</h3>
-                        <h4>GlidelyAI</h4>
-                        <span class="timeline-date">June 2025 - August 2025</span>
-                        <ul class="timeline-bullets">
-                            <li>Leading the development of internal automation infrastructure at GlidelyAI, streamlining workflows between external platforms and internal tools to enhance operational efficiency</li>
-                            <li>Developing scalable, maintainable software systems that integrate third-party APIs and browser automation, supporting key product and growth initiatives at GlidelyAI</li>
-                            <li>Building and maintaining robust browser-based data pipelines to support product intelligence, outbound engagement, and CRM enrichment</li>
-                        </ul>
+                        <div class="timeline-copy">
+                            <h3>Data Analytics Intern</h3>
+                            <span class="timeline-date">August 2025 — December 2025</span>
+                        </div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-logo">
-                            <img src="images/experiences/balnceai.png" alt="Balnce AI">
+                            <img src="images/experiences/glidelyai.png" alt="Glidely">
                         </div>
-                        <h3>Machine Learning Intern</h3>
-                        <h4>Balnce AI</h4>
-                        <span class="timeline-date">January 2025 - June 2025</span>
-                        <ul class="timeline-bullets">
-                            <li>Developing AI-driven agents that autonomously analyze user interactions to extract and categorize intent, preferences, and behavioral insights, optimizing personalization and decision-making, improving recommendation personalization by 22%</li>
-                            <li>Integrating advanced memory storage and retrieval mechanisms, leveraging vector and graph databases to enhance AI agents' ability to adapt, reason, and execute complex tasks efficiently</li>
-                            <li>Engineered a synthetic data generation and validation pipeline using LLMs to create high-quality training data for intent detection, enabling scalable model fine-tuning and accelerating iteration cycles across agent workflows</li>
-                        </ul>
+                        <div class="timeline-copy">
+                            <h3>Software Engineering Intern</h3>
+                            <span class="timeline-date">June 2025 — August 2025</span>
+                        </div>
                     </div>
                 </div>
-
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-logo">
-                            <img src="images/experiences/waterboard.png" alt="CA State Water Resources Control Board">
+                            <img src="images/experiences/balnceai.png" alt="BalnceAI">
                         </div>
-                        <h3>Data Science Intern</h3>
-                        <h4>CA State Water Resources Control Board</h4>
-                        <span class="timeline-date">August 2024 - April 2025</span>
-                        <ul class="timeline-bullets">
-                            <li>Recognized with the Award of Excellence in Large Language Modeling at UC Berkeley's Fall 2024 Research Symposium for contributions to evaluating de facto wastewater reuse risks using machine learning and data scraping techniques</li>
-                            <li>Developing and prototyping an NLP-driven data scraping tool to efficiently extract and analyze 100K+ wastewater contaminant data from literature over 250K+ academic papers, improving predictive modeling of contaminant loading</li>
-                            <li>Fine-tuning LLM prompts to enhance extraction of quantitative data (e.g., graph coordinates, concentration values), boosting precision in wastewater contaminant identification for regulatory risk assessment</li>
-                        </ul>
+                        <div class="timeline-copy">
+                            <h3>Data/Software Intern</h3>
+                            <span class="timeline-date">January 2025 — June 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-logo">
+                            <img src="images/experiences/research.png" alt="UC Berkeley">
+                        </div>
+                        <div class="timeline-copy">
+                            <h3>Undergraduate Research Intern</h3>
+                            <span class="timeline-date">September 2024 — March 2025</span>
+                        </div>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -220,29 +185,22 @@
                         <div class="timeline-logo">
                             <img src="images/experiences/liner.png" alt="Liner">
                         </div>
-                        <h3>AI Intern</h3>
-                        <h4>Liner</h4>
-                        <span class="timeline-date">September 2024 - December 2024</span>
-                        <ul class="timeline-bullets">
-                            <li>Integrated Liner's AI-powered research tools to enhance information retrieval for over 10K students and professionals while conducting user research to refine AI-driven workflows for academic and industry applications</li>
-                            <li>Partnered with Liner's team to design and deploy generative AI solutions that boosted research efficiency by over 40%, streamlined automation workflows, and enhanced knowledge discovery</li>
-                        </ul>
+                        <div class="timeline-copy">
+                            <h3>Software Engineering Intern</h3>
+                            <span class="timeline-date">September 2024 — December 2024</span>
+                        </div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-logo">
-                            <img src="images/experiences/research.png" alt="UC Berkeley Research">
+                            <img src="images/experiences/waterboard.png" alt="CA State Water Resources Control Board">
                         </div>
-                        <h3>Undergraduate Research Intern</h3>
-                        <h4>UC Berkeley</h4>
-                        <span class="timeline-date">September 2024 - March 2025</span>
-                        <ul class="timeline-bullets">
-                            <li>Collaborated with Professor David Romps to build a real-time "feels like" temperature visualization by integrating heat index and surface temperature data from weather stations across the U.S.</li>
-                            <li>Designed and deployed a cloud-based data pipeline using AWS Lambda, S3, and EC2 to automate data processing and visualization updates at regular intervals</li>
-                            <li>Conducted exploratory data analysis to validate heat index calculations and ensure geographical and temporal accuracy, contributing to an accessible tool for public climate awareness</li>
-                        </ul>
+                        <div class="timeline-copy">
+                            <h3>Machine Learning Researcher</h3>
+                            <span class="timeline-date">August 2024 — April 2025</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -252,62 +210,51 @@
                 <h2 class="section-title">UC Berkeley Involvement</h2>
                 <div class="section-line"></div>
             </div>
-            <div class="involvement-grid">
-                <div class="involvement-card">
-                    <div class="involvement-icon">
-                        <img src="images/clubs/cdss.jpeg" alt="UC Berkeley CDSS">
-                    </div>
-                    <h3>Undergraduate Course Staff</h3>
-                    <h4>UC Berkeley - Data C8</h4>
-                    <ul class="timeline-bullets">
-                        <li>Supporting students in UC Berkeley's largest data science course (Data C8) with homework assistance and lab sections, helping over 1,000 students develop foundational data science skills</li>
-                        <li>Assisting in office hours to provide personalized guidance on Python programming, statistical concepts, and data analysis techniques for undergraduate students</li>
-                    </ul>
+            <div class="involvement-carousel" aria-roledescription="carousel" aria-label="UC Berkeley involvement">
+                <button class="involvement-nav prev" type="button" aria-label="Previous involvement">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="involvement-stage">
+                    <article class="involvement-card is-active">
+                        <div class="involvement-icon">
+                            <img src="images/clubs/cdss.jpeg" alt="UC Berkeley CDSS">
+                        </div>
+                        <h3>Teaching Assistant - Data 8</h3>
+                        <h4>Undergraduate Course Staff</h4>
+                    </article>
+                    <article class="involvement-card">
+                        <div class="involvement-icon">
+                            <img src="images/clubs/bigdataatberkeley.png" alt="Big Data at Berkeley">
+                        </div>
+                        <h3>Big Data at Berkeley</h3>
+                        <h4>Bootcamp Head Instructor</h4>
+                    </article>
+                    <article class="involvement-card">
+                        <div class="involvement-icon">
+                            <img src="images/clubs/piedmontconsultinggroup.png" alt="Piedmont Consulting Group">
+                        </div>
+                        <h3>Piedmont Consulting Group</h3>
+                        <h4>VP of Tech Consulting</h4>
+                    </article>
+                    <article class="involvement-card">
+                        <div class="involvement-icon">
+                            <img src="images/clubs/aientrepreneursatberkeley.png" alt="AI Entrepreneurs at Berkeley">
+                        </div>
+                        <h3>AI Entrepreneurs at Berkeley</h3>
+                        <h4>Machine Learning Researcher</h4>
+                    </article>
+                    <article class="involvement-card">
+                        <div class="involvement-icon">
+                            <img src="images/clubs/aiventuresatberkeley.png" alt="AI Ventures at Berkeley">
+                        </div>
+                        <h3>AI Ventures at Berkeley</h3>
+                        <h4>AI Researcher</h4>
+                    </article>
                 </div>
-                <div class="involvement-card">
-                    <div class="involvement-icon">
-                        <img src="images/clubs/bigdataatberkeley.png" alt="Big Data at Berkeley">
-                    </div>
-                    <h3>Bootcamp Head Instructor</h3>
-                    <h4>Big Data at Berkeley</h4>
-                    <ul class="timeline-bullets">
-                        <li>Lead instructor of a cohort of 30 students in data science fundamentals, including data collection, EDA, data analysis techniques, and basic machine learning</li>
-                        <li>Spearheaded curriculum design and continuous refinement of instructional materials, ensuring engaging, up-to-date content aligned with industry practices and student feedback</li>
-                    </ul>
-                </div>
-                <div class="involvement-card">
-                    <div class="involvement-icon">
-                        <img src="images/clubs/piedmontconsultinggroup.png" alt="Piedmont Consulting Group">
-                    </div>
-                    <h3>Director of Technical Strategy</h3>
-                    <h4>Piedmont Consulting Group</h4>
-                    <ul class="timeline-bullets">
-                        <li>Lead the scoping, technical direction, and execution of technical client projects—managing cross-functional student teams, establishing project pipelines, and directly engaging with companies to deliver tailored, high-impact solutions</li>
-                        <li>Collaborate with startups and enterprise partners on projects involving AI agents, API testing, machine learning models, and intelligent system design</li>
-                    </ul>
-                </div>
-                <div class="involvement-card">
-                    <div class="involvement-icon">
-                        <img src="images/clubs/aientrepreneursatberkeley.png" alt="AI Entrepreneurs at Berkeley">
-                    </div>
-                    <h3>Machine Learning Researcher</h3>
-                    <h4>AI Entrepreneurs at Berkeley</h4>
-                    <ul class="timeline-bullets">
-                        <li>Developed personalization features for an AI-powered home search platform that matches users with housing options based on lifestyle preferences using NLP and intent modeling</li>
-                        <li>Refined recommendation logic and integrated large language models in collaboration with a cross-functional team to improve user experience and decision support</li>
-                    </ul>
-                </div>
-                <div class="involvement-card">
-                    <div class="involvement-icon">
-                        <img src="images/clubs/aiventuresatberkeley.png" alt="AI Ventures at Berkeley">
-                    </div>
-                    <h3>AI Researcher</h3>
-                    <h4>AI Ventures at Berkeley</h4>
-                    <ul class="timeline-bullets">
-                        <li>Explored generative AI workflows and contributed to AI product development by enhancing user research tools in collaboration with Liner</li>
-                        <li>Gained hands-on experience with large language models and applied emerging AI trends to real-world use cases within a fast-paced research environment</li>
-                    </ul>
-                </div>
+                <button class="involvement-nav next" type="button" aria-label="Next involvement">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="involvement-dots" role="tablist" aria-label="Involvement slides"></div>
             </div>
         </div>
     </section>
@@ -922,6 +869,6 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=5"></script>
 </body>
 </html> 
